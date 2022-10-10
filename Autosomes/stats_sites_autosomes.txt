@@ -1,0 +1,44 @@
+# I.  Sample based:
+## 1. Missingness per sample
+### Get some site missingness stats:
+### Missingness rate (given as a fraction)
+### Missingness counts (given as an integer)
+### Plot Missingness per sample
+
+## 2. Mean depth per sample
+### Get some site depth stats:
+### Mean depth per sample
+### Plot depth per sample
+
+## 3. Individual heterozygosity 
+### Get some site depth stats:
+### Plot heterozygosity per sample
+### Individuals whose heterozygosity deviated more than 3 SD from the mean should be identified
+
+## 4. Generate a file with the descriptive statistics per sample
+
+## 5. Create a dataframe  with the samples that failed the autosome quality thresholds
+
+
+
+# II. Site based:
+## 1. Missingness per site
+### a. Females (female.lmiss)
+### b. Males (male.lmiss)
+### Get some site missingness stats:
+### Missingness rate (given as a fraction of samples missing the variant
+### Missingness counts (given as an integer where N = samples x 2)
+### Plot Missingness per site
+### Missingness counts helps to see distribution
+
+### 2. Mean depth per site
+#### a. Females (female.ldepth.mean)
+#### b. Males (female.ldepth.mean)
+## Get some stats
+## Plot as boxplots
+## 3. Generate a file with the descriptive statistics per site
+
+### 4. VQSR quality 
+
+
+## 3. Generate a file with the descriptive statistics per sample
