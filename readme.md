@@ -1093,35 +1093,3 @@ sample_metrics$missingness_Xchrom_GT_DP10 = imiss_GT_X$F_MISS[match(sample_metri
 write.table(sample_metrics, "sample_metrics.txt")
 ```
 
-
-
-
-## III. Missingness >= 10% 
-#vcftools --gzvcf $PREFIX.softQC.autosomes.DP20.Q20.vcf.gz --max-missing 0.9 --recode --recode-INFO-all --out $PREFIX.softQC.autosomes.DP20.Q20.miss
-
-#mv $PREFIX.softQC.autosomes.DP20.Q20.miss.recode.vcf $PREFIX.softQC.autosomes.DP20.Q20.miss.vcf
-#bgzip $PREFIX.softQC.autosomes.DP20.Q20.miss.vcf
-#--max-missing float is a 0-1range. 
-#0 allows sites that are completely missing and 1 indicates no missing data allowed
-
-### Store the files of this step on a directory of their own
-#mv $PREFIX.vcf.gz ./1.General_Report #place the initial file in the first directory we created
-#mkdir 3.Site_quality
-#mv $PREFIX.* 3.Site_quality
-### 2.d Soft QC 
-
-Variants with missingness \> 10% should be excluded, Individuals in the `flagged_samples.txt` file will be excluded as well
-
-{bash softQC, eval=FALSE, include=FALSE}
-PREFIX=ReDLat
-
-## Remove Flagged Samples and variants with high missingness
-vcftools --gzvcf $PREFIX.vcf.gz --max-missing 0.9 --remove flagged_samples.txt --recode --recode-INFO-all --out $PREFIX.softQC
-mv $PREFIX.softQC.recode.vcf $PREFIX.softQC.vcf
-#--max-missing <float> Excludes sites on the basis of the proportion of missing data (defined to be between 0 and 1, where 0 allows sites that are completely missing and 1 indicates no missing data allowed).
-
-## Store the files of these step on a directory of their own
-#mkdir 2.General_Report
-#mv $PREFIX* ./2.General_Report/
-#mv ./2.General_Report/$PREFIX.softQC.vcf ./
-
