@@ -1,13 +1,28 @@
 # This script is an overview of the quality control (QC) processes that were done for the ReD-Lat Exomes.
+*Developed by Juliana Acosta-Uribe October 2022*
 
-Developed by Juliana Acosta-Uribe October 2022
+1.  **Set up environment and data**\
+1.a Set up R\
+1.b Set up data
 
-1.  Set up environment and data
+2.  **General report of data quality and statistics previous to QC**\
+2.a Autosomes quality report\
+            - i. Extract autosome\
+            - ii. Calculate quality metrics\
+            - iii. Plot quality metrics\
+            - iv. Create a record of your different QC metrics per sample (optional)\
+2.b X and Y quality report\
+            - i. Extract sex chromosomes\
+            - ii. Get quality metrics for X and Y\
+            - iii. Plot quality metrics for X\
+            - iv. Plot quality metrics for Y\
+v. Check chromosomal sex in plink
 
-2.  General report of data quality and statistics previous to QC
 
-3.  Perform genotype quality control
-
+3: **Genotype quality control**
+3.a Autosomes
+3.b X Chromosome
+3.c Y Chromosome
 
 
 
@@ -45,7 +60,6 @@ Since these are exomes, we first need to extract the 'exome sequencing targets' 
 
 Then, we will use bcftools to perform Left-alignment and normalization of indels, as well as a check to verify that the REF/ALT alleles are correct. However, it will NOT fix strand issues in your VCF (make sure VCF is properly aligned).
 
-**Keep in mind**: Unlike R, all bash code chunks in a markdown are independent in memory, and the variables created in previous chunks will not be available in latter chunks. you have to define your variables/alias at each chunk
 
 ```{bash extract-target-align-reference-normalize, eval=FALSE, include=FALSE}
 PREFIX=ReDLat
@@ -170,8 +184,9 @@ hist(imiss$F_MISS,
      ylab="Samples", 
      main="Missingness rate per sample in - Autosomes preQC", 
      col="paleturquoise3")
-
-
+```
+![Autosomes/](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/missingness_sample_raw.png)            
+```
 ## 2. Mean depth per sample
 idepth = read.delim((paste0(PREFIX,".autosomes.idepth")), header = T, sep = "")
 
