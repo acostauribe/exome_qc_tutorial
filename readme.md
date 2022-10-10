@@ -209,9 +209,12 @@ hist(idepth$MEAN_DEPTH,
      main="Mean Depth per sample - Autosomes preQC", 
      col="paleturquoise3",
      breaks=50)
-
-
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/mean_depth_sample_raw.png)
+            
+```
 ## 3. Individual heterozygosity 
+
 het = read.delim((paste0(PREFIX,".autosomes.het")), header = T, sep = "")
 
 ### Get some site depth stats:
@@ -243,7 +246,9 @@ write.table(het_outlier_both,
             row.names = TRUE, 
             quote = FALSE,
             sep = '\t')
-
+```     
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/Heterozygosity_raw.png)            
+```
 ## 4. Generate a file with the descriptive statistics per sample
 stats_sample = bind_rows(missingness_sample,
                          depth_sample,
@@ -285,13 +290,17 @@ hist(lmiss$F_MISS,
         main="Missingness rate per site - Autosomes preQC", 
         col="paleturquoise3",
         breaks=50)
- 
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/missingness_site_raw.png)         
+```        
 boxplot(lmiss$F_MISS,
         ylab="Missingness rate",
         xlab="Raw dataset", 
         main="Missingness rate per site - Autosomes preQC", 
         col="paleturquoise3")
-
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/missingness_site_boxplot_raw.png)                     
+```            
 
 ## 2. Mean depth per site
 ldepth.mean = read.delim((paste0(PREFIX,".autosomes.ldepth.mean")), header = T, sep = "")
@@ -306,7 +315,11 @@ hist(ldepth.mean$MEAN_DEPTH,
      ylab="Sites", 
      main="Mean depth per site - Autosomes preQC", 
      col="paleturquoise3")
-
+            
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/mean_depth_site_raw.png)       
+```            
+            
 ### Take a zoom at the lower end
 boxplot(ldepth.mean$MEAN_DEPTH,
         ylab="Mean depth per variant",
@@ -314,7 +327,9 @@ boxplot(ldepth.mean$MEAN_DEPTH,
         main="Mean depth per site in Autosomes - preQC - 80X and lower",
         col = c("paleturquoise3"),
         ylim = c(0, 80))
-
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/mean_depth_site_raw_autosomes_80andlower.png)      
+```
 ## 3. Generate a file with the descriptive statistics per site
 stats_sites = bind_rows(missingness_site,
                          depth_site)
