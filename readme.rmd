@@ -1,28 +1,16 @@
----
-title: "Exome Quality Control Pipeline"
-author: "Juliana Acosta-Uribe"
-date: '2022-10-05'
-output: html_document
-keep_md: true
----
-
 # This script is an overview of the quality control (QC) processes that were done for the ReD-Lat Exomes.
 
 Developed by Juliana Acosta-Uribe October 2022
 
-1.  Set up environment and data\
+1.  Set up environment and data
 
-2.  General report of data quality and statistics previous to QC\
+2.  General report of data quality and statistics previous to QC
 
-3.  Determine chromosomal sex check\
+3.  Perform genotype quality control
 
-4.  Check for duplicates and cryptic relatedness\
 
-5.  Individual quality filtering\
 
-6.  Genotype quality control for autosomes\
 
-5: GENERATE PLINK FILES STEP 6: RELATIONSHIP INFERENCE AND MENDEL ERRORS STEP 7: STRINGENT MISSINGNESS QC STEP 8: GENERAL REPORT OF POST QC STATISTICS STEP 9: PRINCIPAL COMPONENT ANALYSIS TO DETECT BATCH EFFECTS
 
 ## 1. Set up environment and data for QC
 
