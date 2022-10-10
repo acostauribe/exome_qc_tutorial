@@ -365,8 +365,9 @@ filter_raw %>%
 ggsave("VQSR-autosomes-preQC.png")  
 
 ```
-![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/VQSR-preQC.png | width=200)     
-        
+#![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/VQSR-preQC.png)     
+<img src="https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/VQSR-preQC.png" width="250">       
+
 Taking a close look to the descriptive statistics in the `stats_sample_autosomes.txt` and `stats_sites_autosomes.txt` files can help decide which are the best thresholds for QC.
 
 #### iv. Create a record of your different QC metrics per sample (optional)
