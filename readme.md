@@ -365,7 +365,8 @@ filter_raw %>%
 ggsave("VQSR-autosomes-preQC.png")  
 
 ```
-
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/VQSR-preQC.png)          
+        
 Taking a close look to the descriptive statistics in the `stats_sample_autosomes.txt` and `stats_sites_autosomes.txt` files can help decide which are the best thresholds for QC.
 
 #### iv. Create a record of your different QC metrics per sample (optional)
@@ -517,8 +518,9 @@ boxplot(imiss_X$F_MISS, imiss_X_female$F_MISS, imiss_X_male$F_MISS,
         sub = "Distribution according to disclosed sex",
         col = c("lavender","paleturquoise3", "lightgoldenrod1"),
         names = c("all", "Female", "Male"))
-
-
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX/missingness_sample_raw_Xchr.png)
+```  
 ## 2. Mean depth per sample
 idepth_X = read.delim((paste0(PREFIX,".X.idepth")), header = T, sep = "")
 idepth_X$sex = sample_sex$sex[match(idepth_X$INDV,sample_sex$sample)]
@@ -546,8 +548,9 @@ boxplot(idepth_X$MEAN_DEPTH, idepth_X_female$MEAN_DEPTH, idepth_X_male$MEAN_DEPT
         sub = "Distribution according to disclosed sex",
         col = c("lavender","paleturquoise3", "lightgoldenrod1"),
         names = c("all", "Female", "Male"))
-
-
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX/mean_depth_sample_raw_chrX.png)
+```
 ## 3. Generate a file with the descriptive statistics per sample
 stats_sample_X_chromosome = bind_rows(missingness_sample_X_chromosome,
                                       depth_sample_X_chromosome)
