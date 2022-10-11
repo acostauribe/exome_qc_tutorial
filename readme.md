@@ -998,7 +998,6 @@ write.table(flagged_samples_autosomes_XY,
             row.names = FALSE, 
             quote = FALSE)
 ```
-
 All the samples of `sex_fail` and `sex_warning` should be double checked with the submitting center to determine if there was a sex labeling error.
 
 
@@ -1048,7 +1047,7 @@ boxplot(lmiss$F_MISS, lmiss_GT$F_MISS,
         main = "Missingness rate per site - Autosomes genotype QC", 
         col = c("paleturquoise3", "lavender"))
 ```
-![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes-GT/missingness-rate_site_boxplot_GT-QC.png)            
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes-GT/missingness-rate_site_boxplot_GT-QC.png)            
 ```
 boxplot(lmiss$F_MISS, lmiss_GT$F_MISS,
         ylab ="Missingness rate",
@@ -1057,7 +1056,7 @@ boxplot(lmiss$F_MISS, lmiss_GT$F_MISS,
         col = c("paleturquoise3", "lavender"),
         ylim = c(0,0.01))
 ```
-![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes-GT/missingness-rate_site_boxplot_GT-QC_lowend.png)            
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes-GT/missingness-rate_site_boxplot_GT-QC_lowend.png)            
 ```
 imiss_GT = read.delim((paste0(PREFIX,".autosomes.DP",DP_autosomes,".GQ",GQ_autosomes,".imiss")), header = T, sep = "")
 imiss_GT_F_MISS = describe(imiss$F_MISS) 
@@ -1069,7 +1068,7 @@ boxplot(imiss$F_MISS, imiss_GT$F_MISS,
         main = "Missingness rate per sample - Autosomes genotype QC", 
         col = c("paleturquoise3", "lavender"))
 ```
-![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes-GT/missingness-rate_sample_boxplot_GT-QC.png)            
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes-GT/missingness-rate_sample_boxplot_GT-QC.png)            
 ```
 stats_missingness_autosomeGT = bind_rows(lmiss_GT_F_MISS,
                                          imiss_GT_F_MISS)
@@ -1126,8 +1125,8 @@ boxplot(imiss$F_MISS, imiss_GT_X$F_MISS,
         main = "Missingness rate per sample - Chromosome X genotype QC", 
         col = c("paleturquoise3", "lavender"))
 ```
-![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_sample_boxplot_XGT-QC_DP10.png)      
-![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_sample_boxplot_XGT-QC_DP20.png)                     
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_sample_boxplot_XGT-QC_DP10.png)      
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_sample_boxplot_XGT-QC_DP20.png)                     
 ```
 lmiss_GT_X = read.delim((paste0(PREFIX,".X.DP",DP_X,".GQ",GQ_X,".lmiss")), header = T, sep = "")
 lmiss_GT_X_F_MISS = describe(lmiss_GT_X$F_MISS)
@@ -1139,8 +1138,8 @@ boxplot(lmiss$F_MISS, lmiss_GT_X$F_MISS,
         main = "Missingness rate per site - Chromosome X genotype QC", 
         col = c("paleturquoise3", "lavender"))
 ```
-![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP10.png)    
-![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP20.png)                     
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP10.png)    
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP20.png)                     
 ```
 boxplot(lmiss$F_MISS, lmiss_GT_X$F_MISS,
         ylab ="Missingness rate",
@@ -1149,8 +1148,8 @@ boxplot(lmiss$F_MISS, lmiss_GT_X$F_MISS,
         col = c("paleturquoise3", "lavender"),
         ylim = c(0,0.01))
 ```
-![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP10_lowend.png)            
-![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP20_lowend.png)             
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP10_lowend.png)            
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP20_lowend.png)             
 ```
 # Annotate the sample_metrics file with the new Missingness values
 sample_metrics$missingness_Xchrom_GT_DP10 = imiss_GT_X$F_MISS[match(sample_metrics$INDV, imiss_GT_X$INDV)]
