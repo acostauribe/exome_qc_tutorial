@@ -16,13 +16,12 @@
             - ii. Get quality metrics for X and Y\
             - iii. Plot quality metrics for X\
             - iv. Plot quality metrics for Y\
-v. Check chromosomal sex in plink
+            - v. Check chromosomal sex in plink
 
-
-3: **Genotype quality control**
-3.a Autosomes
-3.b X Chromosome
-3.c Y Chromosome
+3: **Genotype quality control**\
+3.a Autosomes\
+3.b X Chromosome\
+3.c Y Chromosome\
 
 
 
