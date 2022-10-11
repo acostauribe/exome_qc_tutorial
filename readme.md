@@ -1127,6 +1127,8 @@ boxplot(imiss$F_MISS, imiss_GT_X$F_MISS,
 ```
 DP >= 10
 ![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_sample_boxplot_XGT-QC_DP10.png)      
+                    
+                    
 DP >= 20  
 ![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_sample_boxplot_XGT-QC_DP20.png)                     
 ```
@@ -1142,6 +1144,8 @@ boxplot(lmiss$F_MISS, lmiss_GT_X$F_MISS,
 ```
 DP >= 10
 ![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP10.png)    
+                    
+                    
 DP >= 20  
 ![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP20.png)                     
 ```
@@ -1154,6 +1158,8 @@ boxplot(lmiss$F_MISS, lmiss_GT_X$F_MISS,
 ```
 DP >= 10
 ![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP10_lowend.png)
+
+            
 DP >= 20         
 ![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP20_lowend.png)             
 ```
