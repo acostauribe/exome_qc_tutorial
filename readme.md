@@ -1125,7 +1125,6 @@ GQ_X = 20
 ## I. Missingness per sample
 imiss_GT_X1 = read.delim((paste0(PREFIX,".X.DP",DP_1,".GQ",GQ_X,".imiss")), header = T, sep = "")
 imiss_GT_X2 = read.delim((paste0(PREFIX,".X.DP",DP_2,".GQ",GQ_X,".imiss")), header = T, sep = "")
-                    
 # Get stats
 imiss_GT_X1_F_MISS = describe(imiss_GT_X1$F_MISS) 
 rownames(imiss_GT_X1_F_MISS) = c(paste0("sample_chrX_missingness_F_GT.DP",DP_1))
@@ -1133,7 +1132,7 @@ imiss_GT_X2_F_MISS = describe(imiss_GT_X2$F_MISS)
 rownames(imiss_GT_X2_F_MISS) = c(paste0("sample_chrX_missingness_F_GT.DP",DP_2))
 
 # Plot
-boxplot(imiss$F_MISS, imiss_GT_X1$F_MISS,imiss_GT_X2$F_MISS,
+boxplot(imiss_X$F_MISS, imiss_GT_X1$F_MISS,imiss_GT_X2$F_MISS,
         ylab = "Missingness rate",
         names = c("Raw dataset", paste0("Genotype QC DP=",DP_1), paste0("Genotype QC DP=",DP_2)),
         main = "Missingness rate per sample - Chromosome X genotype QC", 
@@ -1143,6 +1142,7 @@ boxplot(imiss$F_MISS, imiss_GT_X1$F_MISS,imiss_GT_X2$F_MISS,
 ```                    
 lmiss_GT_X1 = read.delim((paste0(PREFIX,".X.DP",DP_1,".GQ",GQ_X,".lmiss")), header = T, sep = "")
 lmiss_GT_X2 = read.delim((paste0(PREFIX,".X.DP",DP_2,".GQ",GQ_X,".lmiss")), header = T, sep = "")
+                    
 # Get stats
 lmiss_GT_X1_F_MISS = describe(lmiss_GT_X1$F_MISS) 
 rownames(lmiss_GT_X1_F_MISS) = c(paste0("site_chrX_missingness_F_GT.DP",DP_1))
@@ -1150,7 +1150,7 @@ lmiss_GT_X2_F_MISS = describe(lmiss_GT_X2$F_MISS)
 rownames(lmiss_GT_X2_F_MISS) = c(paste0("site_chrX_missingness_F_GT.DP",DP_2))
 
 
-boxplot(lmiss$F_MISS, lmiss_GT_X1$F_MISS, lmiss_GT_X2$F_MISS,
+boxplot(lmiss_X$F_MISS, lmiss_GT_X1$F_MISS, lmiss_GT_X2$F_MISS,
         ylab ="Missingness rate",
         names = c("Raw dataset", paste0("Genotype QC DP=",DP_1), paste0("Genotype QC DP=",DP_2)),
         main = "Missingness rate per site - Chromosome X genotype QC", 
@@ -1159,7 +1159,7 @@ boxplot(lmiss$F_MISS, lmiss_GT_X1$F_MISS, lmiss_GT_X2$F_MISS,
 ![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-comparison.png)
 ```
 
-boxplot(lmiss$F_MISS, lmiss_GT_X1$F_MISS, lmiss_GT_X2$F_MISS,
+boxplot(lmiss_X$F_MISS, lmiss_GT_X1$F_MISS, lmiss_GT_X2$F_MISS,
         ylab ="Missingness rate",
         names = c("Raw dataset", paste0("Genotype QC DP=",DP_1), paste0("Genotype QC DP=",DP_2)),
         main = "Missingness rate per site - Chromosome X genotype QC <0.05", 
@@ -1174,6 +1174,19 @@ names(sample_metrics)[names(sample_metrics) == 'missingness_Xchrom_GT_DP1'] = pa
 sample_metrics$missingness_Xchrom_GT_DP2 = imiss_GT_X2$F_MISS[match(sample_metrics$INDV, imiss_GT_X2$INDV)]
 names(sample_metrics)[names(sample_metrics) == 'missingness_Xchrom_GT_DP2'] = paste0('missingness_Xchrom_GT_DP', DP_2)
 write.table(sample_metrics, "sample_metrics.txt")
+            
+# Save Chromosome X - genotype QC stats
+stats_missingness_X_GT = bind_rows(imiss_GT_X1_F_MISS,
+                                   imiss_GT_X2_F_MISS,
+                                   lmiss_GT_X1_F_MISS,
+                                   lmiss_GT_X2_F_MISS)
+write.table(stats_missingness_X_GT,
+            "stats_missingness_X_GT.txt", 
+            col.names = TRUE, 
+            row.names = TRUE, 
+            quote = FALSE,
+            sep = '\t')
+print(stats_missingness_X_GT)
 ```
 
 ### 3.c Y Chromosome
@@ -1224,7 +1237,9 @@ boxplot(imiss_Y_male$F_MISS, imiss_GT_Y1$F_MISS,imiss_GT_Y2$F_MISS,
         names = c("Raw dataset", paste0("Genotype QC DP=",DP_1), paste0("Genotype QC DP=",DP_2)),
         main = "Missingness rate per sample - Chromosome Y genotype QC", 
         col = c("paleturquoise3", "lavender", "lightgoldenrod1"))
-
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrY-GT/missingness-rate_sample_boxplot_YGT-comparison.png)
+```   
 lmiss_GT_Y1 = read.delim((paste0(PREFIX,".Y.DP",DP_1,".GQ",GQ_Y,".lmiss")), header = T, sep = "")
 lmiss_GT_Y2 = read.delim((paste0(PREFIX,".Y.DP",DP_2,".GQ",GQ_Y,".lmiss")), header = T, sep = "")
 # Get stats
@@ -1240,7 +1255,7 @@ boxplot(lmiss_Y_male$F_MISS, lmiss_GT_Y1$F_MISS, lmiss_GT_Y2$F_MISS,
         main = "Missingness rate per site - Chromosome Y genotype QC", 
         col = c("paleturquoise3", "lavender", "lightgoldenrod1"))
 ```
-![image]()
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrY-GT/missingness-rate_site_boxplot_YGT-comparison.png)
 ```            
 # Annotate the sample_metrics file with the new Missingness values
 sample_metrics$missingness_Ychrom_GT_DP1 = imiss_GT_Y1$F_MISS[match(sample_metrics$INDV, imiss_GT_Y1$INDV)]
@@ -1248,4 +1263,17 @@ names(sample_metrics)[names(sample_metrics) == 'missingness_Ychrom_GT_DP1'] = pa
 sample_metrics$missingness_Ychrom_GT_DP2 = imiss_GT_Y2$F_MISS[match(sample_metrics$INDV, imiss_GT_Y2$INDV)]
 names(sample_metrics)[names(sample_metrics) == 'missingness_Ychrom_GT_DP2'] = paste0('missingness_Ychrom_GT_DP', DP_2)
 write.table(sample_metrics, "sample_metrics.txt")
-`            
+
+# Save Chromosome Y - genotype QC stats
+stats_missingness_Y_GT = bind_rows(imiss_GT_Y1_F_MISS,
+                                   imiss_GT_Y2_F_MISS,
+                                   lmiss_GT_Y1_F_MISS,
+                                   lmiss_GT_Y2_F_MISS)
+write.table(stats_missingness_Y_GT,
+            "stats_missingness_Y_GT.txt", 
+            col.names = TRUE, 
+            row.names = TRUE, 
+            quote = FALSE,
+            sep = '\t')
+print(stats_missingness_Y_GT)
+```           
