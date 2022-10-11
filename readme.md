@@ -1030,7 +1030,9 @@ vcftools --gzvcf $PREFIX.autosomes.DP$DP.GQ$GQ.vcf.gz --missing-indv --out $PREF
 ```
 
 Plot missingness rates per site and per sample comparing raw dataset and after genotype quality control.
-Declare the same GQ and DP values
+Declare the same GQ and DP values.
+Notice that since we are retaining genotypes with Depth >= 20, low depth is not a problem any more
+            
 ```{r compare-missingness-rates-autosomes}
 DP_autosomes = 20
 GQ_autosomes = 20
@@ -1040,40 +1042,44 @@ lmiss_GT = read.delim((paste0(PREFIX,".autosomes.DP",DP_autosomes,".GQ",GQ_autos
 lmiss_GT_F_MISS = describe(lmiss$F_MISS)
 rownames(lmiss_GT_F_MISS) = c("site_missingness_F_GT")
 
-imiss_GT = read.delim((paste0(PREFIX,".autosomes.DP",DP_autosomes,".GQ",GQ_autosomes,".imiss")), header = T, sep = "")
-
-imiss_GT_F_MISS = describe(imiss$F_MISS) 
-rownames(imiss_GT_F_MISS) = c("sample_missingness_F_GT")
-
-
-stats_site_Y_chromosome = bind_rows(missingness_site_Y_chromosome,
-                                      mean_site_depth_Y_chromosome)
-write.table(stats_site_Y_chromosome,
-            "stats_site_Y_chromosome.txt", 
-            col.names = TRUE, 
-            row.names = TRUE, 
-            quote = FALSE,
-            sep = '\t')
-print(stats_sample_Y_chromosome)
-
 boxplot(lmiss$F_MISS, lmiss_GT$F_MISS,
         ylab ="Missingness rate",
         names = c("Raw dataset", "After genotype QC"),
         main = "Missingness rate per site - Autosomes genotype QC", 
         col = c("paleturquoise3", "lavender"))
-
+```
+![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes-GT/missingness-rate_site_boxplot_GT-QC.png)            
+```
 boxplot(lmiss$F_MISS, lmiss_GT$F_MISS,
         ylab ="Missingness rate",
         names = c("Raw dataset", "After genotype QC"),
         main = "Missingness rate per site - Autosomes genotype QC <0.01", 
         col = c("paleturquoise3", "lavender"),
         ylim = c(0,0.01))
+```
+![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes-GT/missingness-rate_site_boxplot_GT-QC_lowend.png)            
+```
+imiss_GT = read.delim((paste0(PREFIX,".autosomes.DP",DP_autosomes,".GQ",GQ_autosomes,".imiss")), header = T, sep = "")
+imiss_GT_F_MISS = describe(imiss$F_MISS) 
+rownames(imiss_GT_F_MISS) = c("sample_missingness_F_GT")
 
 boxplot(imiss$F_MISS, imiss_GT$F_MISS,
         ylab = "Missingness rate",
         names = c("Raw dataset", "After genotype QC"),
         main = "Missingness rate per sample - Autosomes genotype QC", 
         col = c("paleturquoise3", "lavender"))
+```
+![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes-GT/missingness-rate_sample_boxplot_GT-QC.png)            
+```
+stats_missingness_autosomeGT = bind_rows(lmiss_GT_F_MISS,
+                                         imiss_GT_F_MISS)
+write.table(stats_missingness_autosomeGT,
+            "stats_missingness_autosomeGT.txt", 
+            col.names = TRUE, 
+            row.names = TRUE, 
+            quote = FALSE,
+            sep = '\t')
+print(stats_sample_Y_chromosome)
 
 high_missingness_GT = filter(imiss_GT, F_MISS>0.1)
 
@@ -1083,13 +1089,13 @@ sample_metrics$missingness_GT = imiss_GT$F_MISS[match(sample_metrics$INDV, imiss
 
 ### 3.b X Chromosome
 
-When we checked the missingness rates and depth rates in x chromosomes, the mean values were similar to those of autosomes (both for male and female samples), therefore it is reasonable to perform genotype quality control using the same depth (DP) and quality (GQ) filters as in autosomes.
+When we checked the missingness rates and depth rates in x chromosomes, the mean values were similar to those of autosomes (both for male and female samples). We tried two settings. 1. DP10 GQ20 2. DP20 GQ20
 ```{bash X-genotype-QC, eval=FALSE, include=FALSE}
 PREFIX=ReDLat
 DP=10
 GQ=20
 
-## I. Retain genotypes with Depth >= 20 & Quality >= 20
+## I. Retain genotypes with Depth >= 10 & Quality >= 20
 vcftools --gzvcf $PREFIX.X.vcf.gz --minDP $DP --minGQ $GQ --recode --recode-INFO-all --out $PREFIX.X.DP$DP.GQ$GQ
 mv $PREFIX.X.DP$DP.GQ$GQ.recode.vcf $PREFIX.X.DP$DP.GQ$GQ.vcf
 bgzip $PREFIX.X.DP$DP.GQ$GQ.vcf
@@ -1119,9 +1125,11 @@ boxplot(imiss$F_MISS, imiss_GT_X$F_MISS,
         names = c("Raw dataset", "After genotype QC"),
         main = "Missingness rate per sample - Chromosome X genotype QC", 
         col = c("paleturquoise3", "lavender"))
-
+```
+![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_sample_boxplot_XGT-QC_DP10.png)      
+![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_sample_boxplot_XGT-QC_DP20.png)                     
+```
 lmiss_GT_X = read.delim((paste0(PREFIX,".X.DP",DP_X,".GQ",GQ_X,".lmiss")), header = T, sep = "")
-
 lmiss_GT_X_F_MISS = describe(lmiss_GT_X$F_MISS)
 rownames(lmiss_GT_X_F_MISS) = c("site_chrX_missingness_F_GT")
 
@@ -1130,14 +1138,20 @@ boxplot(lmiss$F_MISS, lmiss_GT_X$F_MISS,
         names = c("Raw dataset", "After genotype QC"),
         main = "Missingness rate per site - Chromosome X genotype QC", 
         col = c("paleturquoise3", "lavender"))
-
+```
+![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP10.png)    
+![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP20.png)                     
+```
 boxplot(lmiss$F_MISS, lmiss_GT_X$F_MISS,
         ylab ="Missingness rate",
         names = c("Raw dataset", "After genotype QC"),
         main = "Missingness rate per site - Chromosome X genotype QC <0.01", 
         col = c("paleturquoise3", "lavender"),
         ylim = c(0,0.01))
-
+```
+![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP10_lowend.png)            
+![image(https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP20_lowend.png)             
+```
 # Annotate the sample_metrics file with the new Missingness values
 sample_metrics$missingness_Xchrom_GT_DP10 = imiss_GT_X$F_MISS[match(sample_metrics$INDV, imiss_GT_X$INDV)]
 write.table(sample_metrics, "sample_metrics.txt")
