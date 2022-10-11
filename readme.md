@@ -1262,7 +1262,12 @@ sample_metrics$missingness_Ychrom_GT_DP1 = imiss_GT_Y1$F_MISS[match(sample_metri
 names(sample_metrics)[names(sample_metrics) == 'missingness_Ychrom_GT_DP1'] = paste0('missingness_Ychrom_GT_DP', DP_1)
 sample_metrics$missingness_Ychrom_GT_DP2 = imiss_GT_Y2$F_MISS[match(sample_metrics$INDV, imiss_GT_Y2$INDV)]
 names(sample_metrics)[names(sample_metrics) == 'missingness_Ychrom_GT_DP2'] = paste0('missingness_Ychrom_GT_DP', DP_2)
-write.table(sample_metrics, "sample_metrics.txt")
+write.table(sample_metrics, 
+            "sample_metrics.txt",
+            col.names = TRUE, 
+            row.names = TRUE, 
+            quote = FALSE,
+            sep = '\t')
 
 # Save Chromosome Y - genotype QC stats
 stats_missingness_Y_GT = bind_rows(imiss_GT_Y1_F_MISS,
