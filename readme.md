@@ -254,7 +254,7 @@ write.table(het_outlier_both,
             quote = FALSE,
             sep = '\t')
 ```     
-![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/Heterozygosity_raw.png)            
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/samples_heterozygosity_outliers_raw.png)            
 ```
 ## 4. Generate a file with the descriptive statistics per sample
 stats_sample = bind_rows(missingness_sample,
