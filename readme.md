@@ -44,7 +44,9 @@ library(knitr)
 library(dplyr)
 
 ## Set your working directory
-knitr::opts_chunk$set(root.dir = "/Users/acostauribe/ReDLat/JulianaQC/", echo = TRUE)
+knitr::opts_chunk$set(root.dir = "/Users/acostauribe/ReDLat/JulianaQC/", echo = TRUE,
+                      engine.path = list(plink = '~/bin/plink',
+                                         king = '~/bin/king'))
 ## Set up the prefix for our dataset
 PREFIX = 'ReDLat'
 ```
@@ -219,8 +221,12 @@ het = read.delim((paste0(PREFIX,".autosomes.het")), header = T, sep = "")
 ### Get some site depth stats:
 heterozygosity_sample = describe(het$F)
 rownames(heterozygosity_sample) = c("sample_heterozygosity_F")
+### Identify the values for +3 and -3 standard deviations
+heterozygosity_low_limit = mean(het$F)-(3*(sd(het$F)))
+heterozygosity_high_limit = mean(het$F)+(3*(sd(het$F)))
 
 ### Plot heterozygosity per sample
+
 hist(het$F,  
      freq=TRUE, 
      xlab="Heterozygosity F coefficient",  
@@ -228,11 +234,13 @@ hist(het$F,
      main="Heterozygosity rate per sample - Autosomes preQC",
      col="paleturquoise3",
      breaks=50)
-heterozygosity_low_limit = mean(het$F)-(3*(sd(het$F)))
-heterozygosity_high_limit = mean(het$F)+(3*(sd(het$F)))
 abline(v = (heterozygosity_low_limit), col="red")
 abline(v = (heterozygosity_high_limit), col="red")
 abline(v = (mean(het$F)), col="blue") 
+legend("topleft",
+       c("+/-3 SD","mean"),
+       col=c("red","blue"),
+       pch=16)
 
 ### Individuals whose heterozygosity deviated more than 3 SD from the mean should be identified
 het_outlier_low = filter(het, F<heterozygosity_low_limit)
@@ -893,29 +901,29 @@ sample_sex=sample_sex.txt
 
 ## I. Import files into plink and add sex information
 # more info in https://www.cog-genomics.org/plink/1.9/input#vcf
-~/bin/plink --vcf $PREFIX.X.vcf.gz --keep-allele-order --vcf-half-call h --double-id --make-bed --out $PREFIX.X.plink
+plink --vcf $PREFIX.X.vcf.gz --keep-allele-order --vcf-half-call h --double-id --make-bed --out $PREFIX.X.plink
 
 awk '{print $1, $1, $2}' $sample_sex > sex_plink.txt
 
-~/bin/plink --bfile $PREFIX.X.plink --update-sex sex_plink.txt --make-bed --out $PREFIX.X.plink.sex
+plink --bfile $PREFIX.X.plink --update-sex sex_plink.txt --make-bed --out $PREFIX.X.plink.sex
 
 ## II.Remove X pseudoautosomal region (if your data is hg19, use 'hg19')
-~/bin/plink --bfile $PREFIX.X.plink.sex --split-x hg38 --make-bed --out $PREFIX.X.plink.sex.split-x
+plink --bfile $PREFIX.X.plink.sex --split-x hg38 --make-bed --out $PREFIX.X.plink.sex.split-x
 
 ## III. Check if variants have an id in the second column of the bim file.
 # Assign IDs to variants if they dont have it (maximum lenght of variant IDs is 20, which means longer insertions will be left without a variant ID)
-~/bin/plink --bfile $PREFIX.X.plink.sex.split-x --set-missing-var-ids '@:#' --new-id-max-allele-len 20 --make-bed --out $PREFIX.X.plink.sex.split-x.id
+plink --bfile $PREFIX.X.plink.sex.split-x --set-missing-var-ids '@:#' --new-id-max-allele-len 20 --make-bed --out $PREFIX.X.plink.sex.split-x.id
 
 ## IV. Prune for Linkage Disequilibrium 
 #(make sure that the variants have an ID in the bim file)
-~/bin/plink  --bfile $PREFIX.X.plink.sex.split-x.id --indep-pairphase 20000 2000 0.5
+plink  --bfile $PREFIX.X.plink.sex.split-x.id --indep-pairphase 20000 2000 0.5
 # this produces plink.prune.in and plink.prune.out
 
 ## V. Retain independent markers (in linkage equilibrium)
-~/bin/plink  --bfile $PREFIX.X.plink.sex.split-x.id --extract plink.prune.in --make-bed --out $PREFIX.X.plink.sex.split-x.id.LD
+plink  --bfile $PREFIX.X.plink.sex.split-x.id --extract plink.prune.in --make-bed --out $PREFIX.X.plink.sex.split-x.id.LD
 
 ## VI. Check sex 
-~/bin/plink --bfile $PREFIX.X.plink.sex.split-x.id.LD --check-sex 0.3 0.7 --out $PREFIX.X.plink.sex.split-x.id.LD.Xsex
+plink --bfile $PREFIX.X.plink.sex.split-x.id.LD --check-sex 0.3 0.7 --out $PREFIX.X.plink.sex.split-x.id.LD.Xsex
 # more info on https://www.cog-genomics.org/plink/1.9/basic_stats#check_sex
 
 ## VII. Save the files in a directory of their own
