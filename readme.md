@@ -365,8 +365,7 @@ filter_raw %>%
 ggsave("VQSR-autosomes-preQC.png")  
 
 ```
-#![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/VQSR-preQC.png)     
-<img src="https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/VQSR-preQC.png" width="250">       
+#![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/Autosomes/VQSR-autosomes-preQC.png)        
 
 Taking a close look to the descriptive statistics in the `stats_sample_autosomes.txt` and `stats_sites_autosomes.txt` files can help decide which are the best thresholds for QC.
 
@@ -600,8 +599,10 @@ boxplot(lmiss_X_female$N_MISS, lmiss_X_male$N_MISS,
         sub = "Distribution according to disclosed sex",
         col = c("paleturquoise3", "lightgoldenrod1"),
         names = c("Female", "Male"))
-
-## Take a closer look 
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX/missingness-counts_site_boxplot_raw_chrX.png)
+```            
+## Take a closer look at the missingness RATE per site
 boxplot(lmiss_X_female$F_MISS, lmiss_X_male$F_MISS,
         ylab="Missingness rate",
         xlab="Raw dataset", 
@@ -610,8 +611,9 @@ boxplot(lmiss_X_female$F_MISS, lmiss_X_male$F_MISS,
         col = c("paleturquoise3", "lightgoldenrod1"),
         names = c("Female", "Male"),
         ylim = c(0, 0.05))
-
-
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX/missingness-rate_site_boxplot_raw_chrX.png)
+```            
 ### 2. Mean depth per site
 #### a. Females (female.ldepth.mean)
 ldepth_X_female = read.csv((paste0(PREFIX,".X.female.ldepth.mean")), header = T, sep = "")
@@ -635,7 +637,9 @@ boxplot(ldepth_X_female$MEAN_DEPTH, ldepth_X_male$MEAN_DEPTH,
         sub = "Distribution according to disclosed sex",
         col = c("paleturquoise3", "lightgoldenrod1"),
         names = c("Female", "Male"))
-
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX/mean_depth_sample_raw_chrX.png)
+```            
 ## Take a zoom at the lower end
 boxplot(ldepth_X_female$MEAN_DEPTH, ldepth_X_male$MEAN_DEPTH,
         ylab="Mean depth per variant",
@@ -645,7 +649,9 @@ boxplot(ldepth_X_female$MEAN_DEPTH, ldepth_X_male$MEAN_DEPTH,
         col = c("paleturquoise3", "lightgoldenrod1"),
         names = c("Female", "Male"),
         ylim = c(0, 80))
-
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX/mean_depth_sample_raw_80xandlower_chrX.png) 
+```            
 ## 3. Generate a file with the descriptive statistics per site
 
 stats_site_X_chromosome = bind_rows(missingness_site_X_chromosome,
@@ -682,7 +688,8 @@ filter_X_raw %>%
 ggsave("VQSR-X-preQC.png")  
 
 ```
-
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX/VQSR-X-preQC.png)            
+```
 In the ReDLat dataset you can observe that all samples (regardless chromosomal sex) have a mean sample depth above 20X and the missingness rate per sample for X is below 1%.
 
 #### iii. Plot quality metrics for Y
@@ -724,8 +731,9 @@ boxplot(imiss_Y_female$F_MISS, imiss_Y_male$F_MISS,
         sub = "Distribution according to disclosed sex",
         col = c("paleturquoise3", "lightgoldenrod1"),
         names = c("Female", "Male"))
-
-
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrY/missingness_sample_raw_Ychr.png)
+```
 ## 2. Mean depth per sample
 idepth_Y = read.delim((paste0(PREFIX,".Y.idepth")), header = T, sep = "")
 idepth_Y$sex = sample_sex$sex[match(idepth_Y$INDV,sample_sex$sample)]
@@ -750,7 +758,9 @@ boxplot(idepth_Y_female$MEAN_DEPTH, idepth_Y_male$MEAN_DEPTH,
         sub = "Distribution according to disclosed sex",
         col = c("paleturquoise3", "lightgoldenrod1"),
         names = c("Female", "Male"))
-
+```
+![image](  https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrY/mean_depth_sample_raw_chrY.png)         
+```            
 ## 3. Generate a file with the descriptive statistics per sample
 stats_sample_Y_chromosome = bind_rows(missingness_sample_Y_chromosome,
                                       depth_sample_Y_chromosome)
@@ -796,8 +806,10 @@ boxplot(lmiss_Y_female$N_MISS, lmiss_Y_male$N_MISS,
         sub = "Distribution according to disclosed sex",
         col = c("paleturquoise3", "lightgoldenrod1"),
         names = c("Female", "Male"))
-
-## Take a closer look 
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrY/missingness-counts_site_boxplot_raw_chrY.png)
+```           
+## Take a look at missingness rate
 boxplot(lmiss_Y_female$F_MISS, lmiss_Y_male$F_MISS,
         ylab="Missingness rate",
         xlab="Raw dataset", 
@@ -805,8 +817,9 @@ boxplot(lmiss_Y_female$F_MISS, lmiss_Y_male$F_MISS,
         sub = "Distribution according to disclosed sex",
         col = c("paleturquoise3", "lightgoldenrod1"),
         names = c("Female", "Male"))
-
-
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrY/missingness-rate_site_boxplot_raw_chrY.png)
+```
 ### 2. Mean depth per site
 #### a. Females (female.ldepth.mean)
 ldepth_Y_female = read.csv((paste0(PREFIX,".Y.female.ldepth.mean")), header = T, sep = "")
@@ -830,7 +843,9 @@ boxplot(ldepth_Y_female$MEAN_DEPTH, ldepth_Y_male$MEAN_DEPTH,
         sub = "Distribution according to disclosed sex",
         col = c("paleturquoise3", "lightgoldenrod1"),
         names = c("Female", "Male"))
-
+```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrY/mean_depth_sample_raw_chrY.png)            
+```            
 ## 3. Generate a file with the descriptive statistics per sample
 stats_site_Y_chromosome = bind_rows(missingness_site_Y_chromosome,
                                       mean_site_depth_Y_chromosome)
@@ -864,9 +879,9 @@ filter_Y_raw %>%
     scale_y_continuous(name = "Number of variants") +
     labs(title = "VQSR in Y chromosome - preQC")
 ggsave("VQSR-Y-preQC.png")  
-
 ```
-
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrY/VQSR-Y-preQC.png)
+```
 Y chromosome sample statistics can also give us a hint of chromosomal vs disclosed/phenotypic sex discordances. Notice how there are only 83 markers in the y chromosome exome!
 
 #### v. Check chromosomal sex in plink
@@ -940,6 +955,7 @@ ggplot(X_file,
   #geom_hline(aes(yintercept = 0.7)) + 
   ggsave("Chromosomal sex assignement in samples.png", width = 8, height = 5) 
 ```
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX/Chromosomal%20sex%20assignement%20in%20samples.png)
 
 We can add the missingness of Y chromosome as another column to select the samples that will be taken out. Individuals that fail sex check should be added to 'flagged_samples' file
 
