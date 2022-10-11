@@ -21,7 +21,7 @@
 3: **Genotype quality control**\
 3.a Autosomes\
 3.b X Chromosome\
-3.c Y Chromosome\
+3.c Y Chromosome
 
 
 
@@ -457,6 +457,7 @@ bcftools stats $PREFIX.$chr.vcf.gz > $PREFIX.$chr.vchk
 vcftools --gzvcf $PREFIX.$chr.vcf.gz --FILTER-summary --out $PREFIX.$chr
 vcftools --gzvcf $PREFIX.$chr.vcf.gz --missing-indv --out $PREFIX.$chr
 vcftools --gzvcf $PREFIX.$chr.vcf.gz --depth --out $PREFIX.$chr
+vcftools --gzvcf $PREFIX.$chr.vcf.gz --missing-site --out $PREFIX.$chr
   # For site based metrics we will split the analyses into male and female
   for sex in female male
   do
@@ -573,7 +574,8 @@ print(stats_sample_X_chromosome)
 
 # II. Site based:
 ### 1. Missingness per site
-
+imiss_X = read.delim((paste0(PREFIX,".X.imiss")), header = T, sep = "")
+            
 ### a. Females (female.lmiss)
 lmiss_X_female = read.csv((paste0(PREFIX,".X.female.lmiss")), header = T, sep = "")
 ### b. Males (male.lmiss)
@@ -1173,3 +1175,77 @@ sample_metrics$missingness_Xchrom_GT_DP2 = imiss_GT_X2$F_MISS[match(sample_metri
 names(sample_metrics)[names(sample_metrics) == 'missingness_Xchrom_GT_DP2'] = paste0('missingness_Xchrom_GT_DP', DP_2)
 write.table(sample_metrics, "sample_metrics.txt")
 ```
+
+### 3.c Y Chromosome
+
+We are testing two depth values, 10 and 15.
+The filtering is done in the vcf including both males and females, but missingness stats are based on males only
+
+```{bash Y-genotype-QC, eval=FALSE, include=FALSE}
+PREFIX=ReDLat
+#DP=10
+GQ=20
+
+for DP in 10 15
+do
+## I. Retain genotypes with Depth >= 20 & Quality >= 20
+vcftools --gzvcf $PREFIX.Y.vcf.gz --minDP $DP --minGQ $GQ --recode --recode-INFO-all --out $PREFIX.Y.DP$DP.GQ$GQ
+mv $PREFIX.Y.DP$DP.GQ$GQ.recode.vcf $PREFIX.Y.DP$DP.GQ$GQ.vcf
+bgzip $PREFIX.Y.DP$DP.GQ$GQ.vcf
+## II. Check how this affected the missingness rates
+# Per site
+vcftools --gzvcf $PREFIX.Y.DP$DP.GQ$GQ.vcf.gz --keep male.samples.txt --missing-site --out $PREFIX.Y.DP$DP.GQ$GQ
+## Per sample
+vcftools --gzvcf $PREFIX.Y.DP$DP.GQ$GQ.vcf.gz --keep male.samples.txt --missing-indv --out $PREFIX.Y.DP$DP.GQ$GQ
+done
+```
+
+Make some comparative plots
+```{r compare-missingness-rates-Y-GT}
+#Declare the same GQ and DP values as in the filtering
+DP_1 = 10
+DP_2 = 15
+GQ_Y = 20
+
+# We had previously generated an Y.lmiss and Y.imiss files of raw dataset
+## I. Missingness per sample
+imiss_GT_Y1 = read.delim((paste0(PREFIX,".Y.DP",DP_1,".GQ",GQ_Y,".imiss")), header = T, sep = "")
+imiss_GT_Y2 = read.delim((paste0(PREFIX,".Y.DP",DP_2,".GQ",GQ_Y,".imiss")), header = T, sep = "")
+
+# Get stats
+imiss_GT_Y1_F_MISS = describe(imiss_GT_Y1$F_MISS) 
+rownames(imiss_GT_Y1_F_MISS) = c(paste0("sample_chrY_missingness_F_GT.DP",DP_1))
+imiss_GT_Y2_F_MISS = describe(imiss_GT_Y2$F_MISS) 
+rownames(imiss_GT_Y2_F_MISS) = c(paste0("sample_chrY_missingness_F_GT.DP",DP_2))
+
+# Plot
+boxplot(imiss_Y_male$F_MISS, imiss_GT_Y1$F_MISS,imiss_GT_Y2$F_MISS,
+        ylab = "Missingness rate",
+        names = c("Raw dataset", paste0("Genotype QC DP=",DP_1), paste0("Genotype QC DP=",DP_2)),
+        main = "Missingness rate per sample - Chromosome Y genotype QC", 
+        col = c("paleturquoise3", "lavender", "lightgoldenrod1"))
+
+lmiss_GT_Y1 = read.delim((paste0(PREFIX,".Y.DP",DP_1,".GQ",GQ_Y,".lmiss")), header = T, sep = "")
+lmiss_GT_Y2 = read.delim((paste0(PREFIX,".Y.DP",DP_2,".GQ",GQ_Y,".lmiss")), header = T, sep = "")
+# Get stats
+lmiss_GT_Y1_F_MISS = describe(lmiss_GT_Y1$F_MISS) 
+rownames(lmiss_GT_Y1_F_MISS) = c(paste0("site_chrY_missingness_F_GT.DP",DP_1))
+lmiss_GT_Y2_F_MISS = describe(lmiss_GT_Y2$F_MISS) 
+rownames(lmiss_GT_Y2_F_MISS) = c(paste0("site_chrY_missingness_F_GT.DP",DP_2))
+
+
+boxplot(lmiss_Y_male$F_MISS, lmiss_GT_Y1$F_MISS, lmiss_GT_Y2$F_MISS,
+        ylab ="Missingness rate",
+        names = c("Raw dataset", paste0("Genotype QC DP=",DP_1), paste0("Genotype QC DP=",DP_2)),
+        main = "Missingness rate per site - Chromosome Y genotype QC", 
+        col = c("paleturquoise3", "lavender", "lightgoldenrod1"))
+```
+![image]()
+```            
+# Annotate the sample_metrics file with the new Missingness values
+sample_metrics$missingness_Ychrom_GT_DP1 = imiss_GT_Y1$F_MISS[match(sample_metrics$INDV, imiss_GT_Y1$INDV)]
+names(sample_metrics)[names(sample_metrics) == 'missingness_Ychrom_GT_DP1'] = paste0('missingness_Ychrom_GT_DP', DP_1)
+sample_metrics$missingness_Ychrom_GT_DP2 = imiss_GT_Y2$F_MISS[match(sample_metrics$INDV, imiss_GT_Y2$INDV)]
+names(sample_metrics)[names(sample_metrics) == 'missingness_Ychrom_GT_DP2'] = paste0('missingness_Ychrom_GT_DP', DP_2)
+write.table(sample_metrics, "sample_metrics.txt")
+`            
