@@ -1125,11 +1125,13 @@ boxplot(imiss$F_MISS, imiss_GT_X$F_MISS,
         main = "Missingness rate per sample - Chromosome X genotype QC", 
         col = c("paleturquoise3", "lavender"))
 ```
+```
 DP >= 10
+```  
 ![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_sample_boxplot_XGT-QC_DP10.png)      
-                    
-                    
-DP >= 20  
+```           
+DP >= 20
+``` 
 ![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_sample_boxplot_XGT-QC_DP20.png)                     
 ```
 lmiss_GT_X = read.delim((paste0(PREFIX,".X.DP",DP_X,".GQ",GQ_X,".lmiss")), header = T, sep = "")
@@ -1142,11 +1144,14 @@ boxplot(lmiss$F_MISS, lmiss_GT_X$F_MISS,
         main = "Missingness rate per site - Chromosome X genotype QC", 
         col = c("paleturquoise3", "lavender"))
 ```
+```
 DP >= 10
+```  
 ![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP10.png)    
-                    
-                    
-DP >= 20  
+                                       
+```           
+DP >= 20
+```  
 ![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP20.png)                     
 ```
 boxplot(lmiss$F_MISS, lmiss_GT_X$F_MISS,
@@ -1156,11 +1161,14 @@ boxplot(lmiss$F_MISS, lmiss_GT_X$F_MISS,
         col = c("paleturquoise3", "lavender"),
         ylim = c(0,0.01))
 ```
+```
 DP >= 10
+```            
 ![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP10_lowend.png)
 
-            
-DP >= 20         
+```           
+DP >= 20
+```            
 ![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrX-GT/missingness-rate_site_boxplot_XGT-QC_DP20_lowend.png)             
 ```
 # Annotate the sample_metrics file with the new Missingness values
