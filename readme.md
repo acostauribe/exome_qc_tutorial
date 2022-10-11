@@ -844,7 +844,7 @@ boxplot(ldepth_Y_female$MEAN_DEPTH, ldepth_Y_male$MEAN_DEPTH,
         col = c("paleturquoise3", "lightgoldenrod1"),
         names = c("Female", "Male"))
 ```
-![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrY/mean_depth_sample_raw_chrY.png)            
+![image](https://github.com/acostauribe/exome_qc_tutorial/blob/main/chrY/mean_depth_site_raw_chrY.png)         
 ```            
 ## 3. Generate a file with the descriptive statistics per sample
 stats_site_Y_chromosome = bind_rows(missingness_site_Y_chromosome,
